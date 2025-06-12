@@ -1,11 +1,31 @@
-const path = require('path');
-const express = require('express');
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+const PORT = process.env.PORT ;
+
 const app = express();
-const PORT = 4444;
+app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-app.set('view engine', 'hbs');
-app.use(express.urlencoded({extended: true}));
+//User authentication
+import authRoute from "./routes/authRoute.js";
+app.use("/auth", authRoute);
 
-app.listen(PORT, () => {
-    console.log(`http://localhost:PORT`);
-});
+
+mongoose.connect(`${process.env.DB_PATH}/${process.env.DB_NAME}`)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log("http://localhost:" + PORT);
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    })
