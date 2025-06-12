@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     registeredEvents: {
-        type: String
+        type: [String],
+        default: []
     }
 });
 
