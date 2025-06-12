@@ -10,10 +10,13 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  eventDescription: {
+    type: String,
+    required: true
+  },
   eventOrganiser: {
     type: String,
-    ref: "User",
-    required: true,
+    ref: "User"
   },
 });
 
